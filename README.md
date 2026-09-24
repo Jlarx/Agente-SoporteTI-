@@ -1,36 +1,54 @@
-# Proyecto de Evaluación 1 - IA
+# 🤖 SupportAi: Agente Inteligente de Soporte TI
 
-Este proyecto contiene la solución a la Evaluación 1 de Inteligencia Artificial. El desarrollo principal se encuentra en el cuaderno Jupyter `Evaluacion1_IA.ipynb`.
+![Banner](https://img.shields.io/badge/Status-Activo-success?style=for-the-badge) ![Python](https://img.shields.io/badge/Python-3.x-blue?style=for-the-badge&logo=python) ![Groq](https://img.shields.io/badge/LLM-Groq-orange?style=for-the-badge) ![FAISS](https://img.shields.io/badge/Motor_de_Búsqueda-FAISS-red?style=for-the-badge)
 
-## Requisitos Previos
+## 📌 Contexto del Proyecto
 
-Para poder ejecutar el cuaderno y validar el proyecto, es necesario tener instalado:
+**SupportAi** nace con el objetivo de resolver un cuello de botella muy común en el mundo real: **la saturación de las mesas de ayuda de TI**.
 
-- **Python 3.x**
-- **Jupyter Notebook** (o JupyterLab)
-- **Librerías de Python**: Es posible que necesites instalar las librerías importadas dentro del cuaderno (por ejemplo, `pandas`, `numpy`, `scikit-learn`, `matplotlib`, etc.).
+Inspirado en la operación de sistemas de tickets reales como *Jira Service Desk*, este proyecto busca aliviar al equipo de soporte de Nivel 1, que frecuentemente invierte más del 50% de su tiempo respondiendo manualmente las mismas preguntas repetitivas:
 
-Puedes instalar Jupyter y otras dependencias comunes usando `pip` desde la línea de comandos:
+1. 🔑 ¿Cómo cambio mi contraseña?
+2. 📧 ¿Cómo configuro el correo institucional?
+3. 🔒 ¿Qué hago si se bloqueó mi cuenta?
+4. 📱 ¿Cómo solicito acceso a una aplicación?
+5. 🛜 ¿Cómo conecto el computador al Wi-Fi?
+6. 📝 ¿Cuál es el procedimiento para reportar un problema?
 
-```bash
-pip install jupyter notebook pandas numpy scikit-learn matplotlib
-```
+## 🚀 El Problema y Nuestra Solución
 
-## Instrucciones de Ejecución
+Implementar un LLM tradicional directamente representaba un riesgo, ya que la IA podría **alucinar** y entregar a los usuarios instrucciones que no corresponden a las reglas de la compañía (ej: sugerir contraseñas cortas cuando las políticas exigen 12 caracteres).
 
-Sigue estos pasos precisos para ejecutar y evaluar el proyecto:
+Para solucionar esto de manera segura, diseñamos una arquitectura **RAG (Retrieval-Augmented Generation)**:
 
-1. **Abrir la terminal o línea de comandos**: Abre tu terminal (Símbolo del sistema, PowerShell o Git Bash en Windows; Terminal en macOS/Linux).
-2. **Navegar a la carpeta del proyecto**: Utiliza el comando `cd` para moverte al directorio donde se encuentra este proyecto (donde está el archivo `.ipynb`).
-3. **Iniciar Jupyter Notebook**: Ejecuta el siguiente comando:
+1. **Recuperación (Retrieval):** Cuando el usuario hace una pregunta, buscamos en nuestra base de datos (usando **FAISS**) el manual o artículo que resuelve esa duda específica.
+2. **Generación:** Le pasamos esa documentación oficial al modelo LLM (**Groq**) para que redacte una respuesta amigable basándose **únicamente** en los lineamientos de la empresa.
+
+## 🛠️ Tecnologías y Arquitectura
+
+* **Motor de Búsqueda Vectorial:** `FAISS` para la similitud y recuperación de documentos.
+* **Modelo LLM:** `Groq` para una generación rápida y eficiente.
+* **Embeddings:** `sentence-transformers` para convertir los textos y consultas en vectores.
+* **Análisis de Datos:** `Pandas`, `Numpy` y `Matplotlib`.
+
+### ¿Por qué FAISS?
+Cuando un empleado realiza una consulta, el sistema convierte su pregunta en un vector y lo compara matemáticamente con los vectores de nuestros manuales, identificando exactamente qué contenido es el más relevante.
+
+## 📂 Estructura del Repositorio
+
+* **`Agente-TI.ipynb` (Código Fuente):** Notebook principal con todo el código, flujo metodológico y configuración del modelo.
+* **`Diagrama.png` (Diagrama):** Diagrama de la arquitectura de la solución RAG.
+* **`Evaluacion1-IA.pdf` (Informe):** Documento con el informe técnico del proyecto.
+* **`README.md` (Información del Proyecto):** Documento actual con el contexto, problema, solución y estructura general.
+
+## ⚙️ Uso
+
+1. Instalar las dependencias necesarias:
    ```bash
-   jupyter notebook
+   pip install openai faiss-cpu sentence-transformers matplotlib pandas numpy
    ```
-4. **Abrir el archivo**: En la interfaz web que se abrirá en tu navegador, haz clic sobre el archivo `Evaluacion1_IA.ipynb` para abrirlo.
-5. **Ejecutar el sistema (Scripts)**:
-   - Para ejecutar el código paso a paso y comprender el flujo, selecciona la primera celda y presiona `Shift + Enter` repetidamente.
-   - Para **validar todo el funcionamiento rápidamente**, ve al menú superior de Jupyter, haz clic en **Kernel** y selecciona **"Restart & Run All"** (Reiniciar y Ejecutar Todo). Esto garantizará que todo el código se ejecute en orden y desde cero.
+2. Configurar la API Key de Groq en las variables de entorno.
+3. Ejecutar el notebook para probar el agente interactivo.
 
-## Validación
-
-Al ejecutar todo el cuaderno, el evaluador podrá revisar las salidas generadas debajo de cada bloque de código. Estas salidas incluyen resultados, métricas y posibles gráficos que demuestran el funcionamiento del sistema implementado según los requisitos de la evaluación.
+---
+*Desarrollado para la Evaluación Parcial 1*
